@@ -1,9 +1,10 @@
 FROM gradle:4.7.0-jdk8-alpine AS build
+ARG SLTOKEN=${SLTOKEN}
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 CMD wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 CMD unzip -oq sealights-java-latest.zip
-CMD echo 
+CMD echo $SLTOKEN
 CMD echo '{ \
   "token": "${SLTOKEN}", \
   "createBuildSessionId": true, \
