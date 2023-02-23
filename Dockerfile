@@ -4,6 +4,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 CMD wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 CMD unzip -oq sealights-java-latest.zip
+CMD echo "Test statement"
 CMD echo $SLTOKEN
 CMD echo '{ \
   "token": "${SLTOKEN}", \
