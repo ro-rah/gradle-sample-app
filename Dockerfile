@@ -20,7 +20,7 @@ RUN echo '{ \
   }, \
   "failsafeArgLine": "@{sealightsArgLine} -Dsl.testStage=\"Integration Tests\"" \
 }' > slgradle.json
-CMD cat slgradle.json
+RUN cat slgradle.json
 CMD java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
 
 
