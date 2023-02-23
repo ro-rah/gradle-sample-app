@@ -6,7 +6,7 @@ CMD wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zi
 CMD unzip -oq sealights-java-latest.zip
 RUN echo $SLTOKEN
 RUN echo '{ \
-  "token": "$SLTOKEN", \n\
+  "token": "${SLTOKEN}", \n\
   "createBuildSessionId": true, \n\
   "appName": "'${JOB_NAME}'", \n\
   "branchName": "'${BRANCH}'", \n\
