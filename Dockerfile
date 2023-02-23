@@ -4,18 +4,17 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 CMD wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 CMD unzip -oq sealights-java-latest.zip
-CMD echo "Test statement"
-CMD echo $SLTOKEN
-CMD echo '{ \
-  "token": "${SLTOKEN}", \
-  "createBuildSessionId": true, \
-  "appName": "'${JOB_NAME}'", \
-  "branchName": "'${BRANCH}'", \
-  "buildName": "1.1.'${BUILD_NUMBER}'", \
-  "packagesIncluded": "demo*", \
-  "includeResources": true, \
-  "executionType": "full", \
-  "testStage": "Unit Tests", \
+RUN echo $SLTOKEN
+RUN echo '{ \
+  "token": "${SLTOKEN}", \n\
+  "createBuildSessionId": true, \n\
+  "appName": "'${JOB_NAME}'", \n\
+  "branchName": "'${BRANCH}'", \n\
+  "buildName": "1.1.'${BUILD_NUMBER}'", \n\
+  "packagesIncluded": "demo*", \n\
+  "includeResources": true, \n\
+  "executionType": "full", \n\
+  "testStage": "Unit Tests", \n\
   "sealightsJvmParams": { \
     "sl.featuresData.enableLineCoverage": "true" \
   }, \
@@ -25,15 +24,15 @@ CMD cat slgradle.json
 CMD java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
 
 
-RUN gradle build --no-daemon 
+#RUN gradle build --no-daemon 
 
-FROM openjdk:8-jre-slim
+#FROM openjdk:8-jre-slim
 
-EXPOSE 8080
+#EXPOSE 8080
 
-RUN mkdir /app
+#RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+#COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+#ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
 
