@@ -1,17 +1,20 @@
 FROM gradle:4.7.0-jdk8-alpine AS build
 ARG SLTOKEN=${SLTOKEN}
+ARG APPNAME=${APPNAME}
+ARG BRANCH=${BRANCH}
+ARG BUILD_NUMBER=${BUILD_NUMBER}
+USER root
 RUN apk add --no-cache wget
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
-RUN unzip -oq sealights-java-latest.zip
-RUN echo $SLTOKEN
+#RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
+#RUN unzip -oq sealights-java-latest.zip
 RUN echo '{ \
-  "tokenfile": "$SLTOKEN", \n\
+  "tokenfile": "'$SLTOKEN'", \n\
   "createBuildSessionId": true, \n\
-  "appName": "'${JOB_NAME}'", \n\
-  "branchName": "'${BRANCH}'", \n\
-  "buildName": "1.1.'${BUILD_NUMBER}'", \n\
+  "appName": "'$APPNAME'", \n\
+  "branchName": "'$BRANCH'", \n\
+  "buildName": "1.1.'$BUILD_NUMBER'", \n\
   "packagesIncluded": "demo*", \n\
   "includeResources": true, \n\
   "executionType": "full", \n\
