@@ -2,7 +2,7 @@ FROM gradle:4.7.0-jdk8-alpine AS build
 ARG SLTOKEN=${SLTOKEN}
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN curl -o sealights-java-latest.zip "https://agents.sealights.co/sealights-java/sealights-java-latest.zip"
+RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 RUN unzip -oq sealights-java-latest.zip
 RUN echo $SLTOKEN
 RUN echo '{ \
