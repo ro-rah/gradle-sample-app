@@ -10,12 +10,12 @@ WORKDIR /home/gradle/src
 RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 RUN unzip -oq sealights-java-latest.zip
 RUN echo '{ \
-  "tokenFile": "'$SLTOKEN'", \
+  "token": "'$SLTOKEN'", \
   "createBuildSessionId": true, \
   "appName": "'$APPNAME'", \
   "branchName": "'$BRANCH'", \
   "buildName": "1.1.'$BUILD_NUMBER'", \
-  "packagesIncluded": "demo*", \
+  "packagesIncluded": "io.codefresh.gradleexample*", \
   "includeResources": true, \
   "executionType": "full", \
   "testStage": "Unit Tests", \
@@ -28,7 +28,7 @@ RUN cat slgradle.json
 RUN java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
 
 
-#RUN gradle build --no-daemon 
+RUN gradle build --no-daemon 
 
 #FROM openjdk:8-jre-slim
 
