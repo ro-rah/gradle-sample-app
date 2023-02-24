@@ -1,8 +1,8 @@
 FROM gradle:4.7.0-jdk8-alpine AS build
 ARG SLTOKEN=${SLTOKEN}
+RUN apk add --no-cache wget
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN apk add --no-cache wget
 RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 RUN unzip -oq sealights-java-latest.zip
 RUN echo $SLTOKEN
