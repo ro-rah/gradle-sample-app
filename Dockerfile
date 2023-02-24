@@ -7,25 +7,25 @@ USER root
 RUN apk add --no-cache wget
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-#RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
-#RUN unzip -oq sealights-java-latest.zip
+RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
+RUN unzip -oq sealights-java-latest.zip
 RUN echo '{ \
-  "tokenfile": "'$SLTOKEN'", \n\
-  "createBuildSessionId": true, \n\
-  "appName": "'$APPNAME'", \n\
-  "branchName": "'$BRANCH'", \n\
-  "buildName": "1.1.'$BUILD_NUMBER'", \n\
-  "packagesIncluded": "demo*", \n\
-  "includeResources": true, \n\
-  "executionType": "full", \n\
-  "testStage": "Unit Tests", \n\
+  "tokenfile": "'$SLTOKEN'", \
+  "createBuildSessionId": true, \
+  "appName": "'$APPNAME'", \
+  "branchName": "'$BRANCH'", \
+  "buildName": "1.1.'$BUILD_NUMBER'", \
+  "packagesIncluded": "demo*", \
+  "includeResources": true, \
+  "executionType": "full", \
+  "testStage": "Unit Tests", \
   "sealightsJvmParams": { \
     "sl.featuresData.enableLineCoverage": "true" \
   }, \
   "failsafeArgLine": "@{sealightsArgLine} -Dsl.testStage=\"Integration Tests\"" \
 }' > slgradle.json
 RUN cat slgradle.json
-CMD java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
+RUN java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
 
 
 #RUN gradle build --no-daemon 
