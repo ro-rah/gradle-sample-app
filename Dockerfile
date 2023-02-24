@@ -10,7 +10,7 @@ WORKDIR /home/gradle/src
 RUN wget -nv https://agents.sealights.co/sealights-java/sealights-java-latest.zip
 RUN unzip -oq sealights-java-latest.zip
 RUN echo '{ \
-  "tokenfile": "'$SLTOKEN'", \
+  "tokenFile": "'$SLTOKEN'", \
   "createBuildSessionId": true, \
   "appName": "'$APPNAME'", \
   "branchName": "'$BRANCH'", \
