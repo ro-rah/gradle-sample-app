@@ -1,13 +1,13 @@
-# Gradle Docker Codefresh example
+# Gradle Docker Codefresh example w/ Sealights Integration
 
 This is an example Java application that uses Spring Boot 2, Gradle and Docker
-It is compiled using Codefresh.
+It is compiled using Codefresh.  Additionally during application build, it is scanned to report codecoverage.
 
 If you are looking for Maven, then see this [example](https://github.com/codefresh-contrib/spring-boot-2-sample-app)
 
 ## Create a multi-stage docker image
 
-To compile and package using Docker multi-stage builds
+To compile, scan with sealights and package using Docker multi-stage builds
 
 ```bash
 docker build . -t my-app --progress=plain --no-cache --build-arg APPNAME='gradle-sample-app' \
