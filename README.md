@@ -10,7 +10,10 @@ If you are looking for Maven, then see this [example](https://github.com/codefre
 To compile and package using Docker multi-stage builds
 
 ```bash
-docker build . -t my-app
+docker build . -t my-app --progress=plain --no-cache --build-arg APPNAME='gradle-sample-app' \
+--build-arg BRANCH='master' --build-arg BUILD_NUMBER="1" \
+--build-arg SLTOKEN='<pasteyourSLToken>'
+docker run -p 8082:8080 my-app
 ```
 
 ## Create a Docker image packaging an existing jar
