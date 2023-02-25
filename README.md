@@ -16,6 +16,13 @@ docker build . -t my-app --progress=plain --no-cache --build-arg APPNAME='gradle
 docker run -p 8082:8080 my-app
 ```
 
+## Validate Coverage collection
+Once you run your container:
+- navigate to the dashboard, open a manual test stage
+- access my-app (ex. http://localhost:8082)
+- close manual test stage
+- validate coverage is captured
+
 ## Create a Docker image packaging an existing jar
 
 ```bash
