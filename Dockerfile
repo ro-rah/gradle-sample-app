@@ -22,21 +22,26 @@ RUN echo '{ \
   "sealightsJvmParams": { \
     "sl.featuresData.enableLineCoverage": "true" \
   }, \
-  "failsafeArgLine": "@{sealightsArgLine} -Dsl.testStage=\"Integration Tests\"" \
+  "failsafeArgLine": "@{sealightsArgLine} -Dsl.testStage=\"Unit Tests\"" \
 }' > slgradle.json
+RUN echo $SLTOKEN > sltoken.txt
 RUN cat slgradle.json
 RUN java -jar sl-build-scanner.jar -gradle -configfile slgradle.json -workspacepath "."
-
-
 RUN gradle build --no-daemon 
 
-#FROM openjdk:8-jre-slim
+FROM openjdk:8-jre-slim
 
-#EXPOSE 8080
+EXPOSE 8080
 
-#RUN mkdir /app
+RUN mkdir /app
 
-#COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 
-#ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+COPY --from=build /home/gradle/src/sl-test-listener.jar /app/
+COPY --from=build /home/gradle/src/sltoken.txt /app/
+RUN pwd
+RUN ls app/
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom", \
+"-javaagent:/app/sl-test-listener.jar", "-Dsl.tokenFile=/app/sltoken.txt", "-Dsl.labId=lab1",   "-jar","/app/spring-boot-application.jar"]
 
